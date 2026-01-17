@@ -28,25 +28,10 @@ export const NavBar = ({ activeSection, onNavigate }: NavBarProps) => {
     // Let's keep it but make it smaller or move to bottom right corner
 
     return (
-        <View style={[
-            styles.container,
-            isMobile && {
-                right: 0,
-                left: 0,
-                bottom: 20,
-                top: undefined,
-                alignItems: 'center' // Center horizontally
-            }
-        ]}>
+        <View style={isMobile ? styles.mobileContainer : styles.desktopContainer}>
             <View style={[
                 styles.dock,
-                isMobile && {
-                    flexDirection: 'row',
-                    paddingVertical: 12,
-                    paddingHorizontal: 20,
-                    gap: 20,
-                    borderRadius: 30
-                }
+                isMobile && styles.mobileDock
             ]}>
                 {NAV_ITEMS.map((item) => {
                     const isActive = activeSection === item.id;
@@ -87,7 +72,7 @@ export const NavBar = ({ activeSection, onNavigate }: NavBarProps) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
+    desktopContainer: {
         position: 'absolute',
         right: 30, // Right side
         top: 0,
@@ -95,6 +80,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center', // Center vertically
         zIndex: 1000,
         pointerEvents: 'box-none',
+    },
+    mobileContainer: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 20,
+        alignItems: 'center', // Center horizontally
+        zIndex: 1000,
+        pointerEvents: 'box-none',
+        // Explicitly NO 'top' here
     },
     dock: {
         flexDirection: 'column', // Vertical stack
@@ -118,6 +113,18 @@ const styles = StyleSheet.create({
                 elevation: 10,
             }
         }),
+    },
+    mobileDock: {
+        flexDirection: 'row',
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        gap: 20,
+        borderRadius: 30,
+        ...Platform.select({
+            web: {
+                boxShadow: '0 -4px 30px rgba(0, 0, 0, 0.5)', // Shadow upwards
+            }
+        })
     },
     iconButton: {
         padding: 12,

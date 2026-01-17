@@ -23,6 +23,11 @@ export default function App() {
     });
     const { isMobile, height: windowHeight } = useResponsive();
 
+    // Fix for web overscroll white space
+    if (typeof document !== 'undefined') {
+        document.body.style.backgroundColor = Colors.dark.background;
+    }
+
     const handleLayout = (id: SectionId) => (event: LayoutChangeEvent) => {
         // Add a small offset/bumber zone
         sectionPositions.current[id] = event.nativeEvent.layout.y;
