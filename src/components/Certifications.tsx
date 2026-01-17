@@ -19,12 +19,12 @@ export const Certifications = () => {
     const { isMobile } = useResponsive();
 
     return (
-        <View style={[styles.container, isMobile && { alignItems: 'center' }]}>
+        <View style={styles.container}>
             {CERT_DATA.map((item, index) => (
-                <View key={index} style={[styles.row, isMobile && { flexDirection: 'column', alignItems: 'center' }]}>
-                    <Text style={[styles.year, isMobile && { marginBottom: 4, width: 'auto', textAlign: 'center' }]}>{item.year}</Text>
-                    <View style={[styles.info, isMobile && { alignItems: 'center' }]}>
-                        <Text style={[styles.title, { fontSize: isMobile ? 20 : 24, textAlign: isMobile ? 'center' : 'left' }]}>{item.title}</Text>
+                <View key={index} style={[styles.row, isMobile && { flexDirection: 'column', alignItems: 'flex-start' }]}>
+                    <Text style={[styles.year, isMobile && { marginBottom: 4 }]}>{item.year}</Text>
+                    <View style={styles.info}>
+                        <Text style={[styles.title, { fontSize: isMobile ? 20 : 24 }]}>{item.title}</Text>
                         <Text style={styles.issuer}>{item.issuer}</Text>
                     </View>
                 </View>
