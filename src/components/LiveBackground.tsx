@@ -11,10 +11,28 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Colors } from '../constants/Colors';
 
-const { width, height } = Dimensions.get('window');
-const NUM_PARTICLES = 80; // More particles
+import { useWindowDimensions } from 'react-native';
 
-const Particle = ({ index }: { index: number }) => {
+const NUM_PARTICLES = 80;
+
+const Particle = ({ index, width, height }: { index: number, width: number, height: number }) => {
+    // Re-calculate initial positions if dimensions change? 
+    // Actually, just initial random pos is fine, but bounds should be dynamic?
+    // For simplicity, we keep them roaming, but maybe ensure they wrap correctly.
+    // Let's just pass dimensions to ensure re-render on resize if needed or just bounds.
+
+    // Simplification: React Native Reanimated might need shared values updated if we want strict bounds.
+    // But for "black screen", the issue is likely the Container size not updating or the Canvas equivalent.
+
+    // Wait, the container uses StyleSheet.absoluteFillObject. That should auto-resize.
+    // The issue might be the Particles are positioned initially based on small/large screen and don't update?
+    // If you minimize, width decreases. Particles at x=1900 might be off screen?
+    // The user said "website become black", implying content disappears?
+    // OR maybe "black" means the background is there but content is gone?
+    // If *everything* is black, maybe the background layer is covering content?
+    // zIndex is -1, so it should be behind.
+
+    // Let's ensure the initial random positions use the current dimensions.
     const initialX = Math.random() * width;
     const initialY = Math.random() * height;
     const size = Math.random() * 3 + 1;
@@ -81,10 +99,18 @@ const Particle = ({ index }: { index: number }) => {
 };
 
 export const LiveBackground = () => {
+    const { width, height } = useWindowDimensions();
+
+    // Key by dimensions to force re-render/re-distribute particles on drastic resize?
+    // Or just let them be. The "Black" screen might be the particles bunching up or something?
+    // Actually, if I minimize, width < old_width. Particles at x > new_width are invisible. 
+    // If I maximize, width > old_width. Particles are only in the top-left corner?
+    // Re-mounting particles on resizing might be heavy but fixes distribution.
+
     return (
         <View style={styles.container} pointerEvents="none">
             {Array.from({ length: NUM_PARTICLES }).map((_, i) => (
-                <Particle key={i} index={i} />
+                <Particle key={`${i}-${width}-${height}`} index={i} width={width} height={height} />
             ))}
         </View>
     );
