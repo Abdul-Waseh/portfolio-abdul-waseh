@@ -11,11 +11,10 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Colors } from '../constants/Colors';
 
-import { useWindowDimensions } from 'react-native';
-
 const NUM_PARTICLES = 80;
 
-const Particle = ({ index, width, height }: { index: number, width: number, height: number }) => {
+// Use React.memo to prevent re-renders unless props change (which they shouldn't)
+const Particle = React.memo(({ index }: { index: number }) => {
     // Re-calculate initial positions if dimensions change? 
     // Actually, just initial random pos is fine, but bounds should be dynamic?
     // For simplicity, we keep them roaming, but maybe ensure they wrap correctly.
@@ -33,8 +32,10 @@ const Particle = ({ index, width, height }: { index: number, width: number, heig
     // zIndex is -1, so it should be behind.
 
     // Let's ensure the initial random positions use the current dimensions.
-    const initialX = Math.random() * width;
-    const initialY = Math.random() * height;
+    // Use Percentage for initial position!
+    // This allows the browser/native layout to handle resize automatically.
+    const initialX = Math.random() * 100; // 0-100%
+    const initialY = Math.random() * 100; // 0-100%
     const size = Math.random() * 3 + 1;
 
     const translateX = useSharedValue(0);
@@ -86,8 +87,8 @@ const Particle = ({ index, width, height }: { index: number, width: number, heig
             style={[
                 styles.particle,
                 {
-                    left: initialX,
-                    top: initialY,
+                    left: `${initialX}%`,
+                    top: `${initialY}%`,
                     width: size,
                     height: size,
                     borderRadius: size / 2,
@@ -96,21 +97,20 @@ const Particle = ({ index, width, height }: { index: number, width: number, heig
             ]}
         />
     );
-};
+});
 
 export const LiveBackground = () => {
-    const { width, height } = useWindowDimensions();
-
     // Key by dimensions to force re-render/re-distribute particles on drastic resize?
     // Or just let them be. The "Black" screen might be the particles bunching up or something?
     // Actually, if I minimize, width < old_width. Particles at x > new_width are invisible. 
     // If I maximize, width > old_width. Particles are only in the top-left corner?
     // Re-mounting particles on resizing might be heavy but fixes distribution.
 
+    // No need for window dimensions tracking anymore!
     return (
         <View style={styles.container} pointerEvents="none">
             {Array.from({ length: NUM_PARTICLES }).map((_, i) => (
-                <Particle key={i} index={i} width={width} height={height} />
+                <Particle key={i} index={i} />
             ))}
         </View>
     );
