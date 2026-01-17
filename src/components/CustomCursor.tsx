@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { Platform } from 'react-native';
+import { useResponsive } from '../hooks/useResponsive';
 
 export const CustomCursor = () => {
-    if (Platform.OS !== 'web') return null;
+    const { isMobile } = useResponsive();
+    if (Platform.OS !== 'web' || isMobile) return null;
 
     useEffect(() => {
         // Main cursor (the sharp pointer/circle)
