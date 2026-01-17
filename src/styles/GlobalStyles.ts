@@ -55,7 +55,7 @@ export const GlobalStyles = StyleSheet.create({
         opacity: 0.8,
     },
     section: {
-        minHeight: height, // Full screen height
+        // minHeight is now handled dynamically in App.tsx
         justifyContent: 'center', // Center content vertically
         paddingVertical: 20,
     }
