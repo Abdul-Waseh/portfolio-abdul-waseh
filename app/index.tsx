@@ -55,8 +55,10 @@ export default function App() {
 
     const sectionStyle = [
         GlobalStyles.section,
-        // Enforce minimum height matches window height for "fullscreen" feel on ALL devices
-        { minHeight: windowHeight } as any
+        // Enforce true fullscreen 100vh for web to ensure perfect snapping
+        Platform.OS === 'web'
+            ? { height: '100vh' } as any
+            : { minHeight: windowHeight }
     ];
 
     return (
@@ -67,6 +69,10 @@ export default function App() {
 
             <ScrollView
                 ref={scrollViewRef}
+                style={[
+                    // APPLY SCROLL SNAP HERE (The Scroll Container)
+                    Platform.OS === 'web' && ({ scrollSnapType: 'y mandatory' } as any)
+                ]}
                 contentContainerStyle={[
                     GlobalStyles.contentContainer,
                     isMobile && { paddingRight: 24, paddingHorizontal: 20, paddingBottom: 40 }

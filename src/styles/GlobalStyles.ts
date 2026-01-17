@@ -20,11 +20,6 @@ export const GlobalStyles = StyleSheet.create({
         paddingBottom: 40,
         maxWidth: 1200,
         width: '100%',
-        ...Platform.select({
-            web: {
-                scrollSnapType: 'y mandatory' as any
-            }
-        })
     },
     headingFont: {
         fontFamily: 'Anton_400Regular',
