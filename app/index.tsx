@@ -55,9 +55,8 @@ export default function App() {
 
     const sectionStyle = [
         GlobalStyles.section,
-        // Ensure minimum height matches window height for desktop "snap" feel, 
-        // but allow auto for mobile scrolling.
-        { minHeight: isMobile ? 'auto' : windowHeight } as any
+        // Enforce minimum height matches window height for "fullscreen" feel on ALL devices
+        { minHeight: windowHeight } as any
     ];
 
     return (

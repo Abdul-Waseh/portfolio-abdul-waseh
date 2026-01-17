@@ -17,9 +17,8 @@ export const GlobalStyles = StyleSheet.create({
     contentContainer: {
         paddingHorizontal: 24,
         paddingRight: 100, // Extra padding for right-side navbar
-        paddingBottom: 100,
+        paddingBottom: 40,
         maxWidth: 1200,
-        alignSelf: 'center',
         width: '100%',
     },
     headingFont: {

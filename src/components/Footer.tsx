@@ -7,7 +7,7 @@ export const Footer = () => {
     const { isMobile } = useResponsive();
 
     return (
-        <View style={[styles.container, { marginTop: isMobile ? 60 : 100 }]}>
+        <View style={styles.container}>
             <Text style={styles.sub}>GOT A PROJECT?</Text>
             <Text style={[styles.heading, { fontSize: isMobile ? 32 : 60 }]}>LET'S WORK</Text>
             <Text style={[styles.heading, styles.highlight, { fontSize: isMobile ? 32 : 60 }]}>TOGETHER</Text>
@@ -22,7 +22,6 @@ export const Footer = () => {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 100,
         alignItems: 'center',
         paddingVertical: 60,
     },
