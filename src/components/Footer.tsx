@@ -9,8 +9,8 @@ export const Footer = () => {
     return (
         <View style={[styles.container, { marginTop: isMobile ? 60 : 100 }]}>
             <Text style={styles.sub}>GOT A PROJECT?</Text>
-            <Text style={[styles.heading, { fontSize: isMobile ? 36 : 60 }]}>LET'S WORK</Text>
-            <Text style={[styles.heading, styles.highlight, { fontSize: isMobile ? 36 : 60 }]}>TOGETHER</Text>
+            <Text style={[styles.heading, { fontSize: isMobile ? 32 : 60 }]}>LET'S WORK</Text>
+            <Text style={[styles.heading, styles.highlight, { fontSize: isMobile ? 32 : 60 }]}>TOGETHER</Text>
 
             <TouchableOpacity onPress={() => Linking.openURL('mailto:waseh905@gmail.com')}>
                 <Text style={[styles.email, { fontSize: isMobile ? 16 : 18 }]}>waseh905@gmail.com</Text>
