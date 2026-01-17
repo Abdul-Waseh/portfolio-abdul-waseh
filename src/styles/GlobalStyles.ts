@@ -7,6 +7,12 @@ export const GlobalStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Colors.dark.background,
+        ...Platform.select({
+            web: {
+                height: '100dvh' as any, // Dynamic viewport height for mobile browsers
+                minHeight: '-webkit-fill-available' as any // Fallback
+            }
+        })
     },
     contentContainer: {
         paddingHorizontal: 24,

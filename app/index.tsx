@@ -64,7 +64,7 @@ export default function App() {
         <View style={GlobalStyles.container}>
             <StatusBar style="light" />
             {/* <LiveBackground /> */}
-            {/* <CustomCursor /> */}
+            <CustomCursor />
 
             <ScrollView
                 ref={scrollViewRef}
