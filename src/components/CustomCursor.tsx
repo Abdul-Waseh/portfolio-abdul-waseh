@@ -1,3 +1,5 @@
+import React, { useEffect } from 'react';
+import { Platform } from 'react-native';
 import { useResponsive } from '../hooks/useResponsive';
 
 export const CustomCursor = () => {
