@@ -12,8 +12,11 @@ interface ProjectCardProps {
     link?: string;
 }
 
+import { useResponsive } from '../hooks/useResponsive';
+
 export const ProjectCard = ({ index, title, techStack, description, link }: ProjectCardProps) => {
     const [hovered, setHovered] = useState(false);
+    const { isMobile } = useResponsive();
 
     return (
         <TouchableOpacity
@@ -33,7 +36,7 @@ export const ProjectCard = ({ index, title, techStack, description, link }: Proj
             <View style={styles.topRow}>
                 <Text style={[styles.index, hovered && styles.textHighlight]}>{index}.</Text>
                 <View style={styles.textColumn}>
-                    <Text style={[styles.title, hovered && styles.titleHover]}>{title}</Text>
+                    <Text style={[styles.title, hovered && styles.titleHover, { fontSize: isMobile ? 24 : 32 }]}>{title}</Text>
                     <Text style={styles.description}>{description}</Text>
                     <Text style={styles.techStack}>{techStack}</Text>
                 </View>

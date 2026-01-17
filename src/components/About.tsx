@@ -2,12 +2,15 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Colors } from '../constants/Colors';
 import { GlobalStyles } from '../styles/GlobalStyles';
+import { useResponsive } from '../hooks/useResponsive';
 
 export const About = () => {
+    const { isMobile } = useResponsive();
+
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { marginBottom: isMobile ? 60 : 80, marginTop: isMobile ? 20 : 40 }]}>
             <Text style={GlobalStyles.subheading}>INTRODUCTION</Text>
-            <Text style={styles.heading}>ABOUT ME</Text>
+            <Text style={[styles.heading, { fontSize: isMobile ? 32 : 48 }]}>ABOUT ME</Text>
             <Text style={GlobalStyles.text}>
                 I am a passionate Software Engineer based in Islamabad, dedicated to building high-performance applications that solve real-world problems. With a rigorous academic background and hands-on experience in full-stack development, I thrive on turning complex requirements into seamless, user-centric digital solutions.
             </Text>
@@ -28,7 +31,6 @@ const styles = StyleSheet.create({
     },
     heading: {
         fontFamily: 'Anton_400Regular',
-        fontSize: 48,
         color: Colors.dark.textHighlight,
         marginBottom: 24,
         textTransform: 'uppercase',

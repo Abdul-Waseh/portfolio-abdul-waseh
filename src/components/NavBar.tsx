@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Colors } from '../constants/Colors';
 import Animated, { useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated';
+import { useResponsive } from '../hooks/useResponsive';
 
 export type SectionId = 'hero' | 'about' | 'projects' | 'skills' | 'certs' | 'contact';
 
@@ -21,9 +22,14 @@ const NAV_ITEMS: { id: SectionId; icon: string }[] = [
 ];
 
 export const NavBar = ({ activeSection, onNavigate }: NavBarProps) => {
+    const { isMobile } = useResponsive();
+
+    // On mobile, hide the nav or change style?
+    // Let's keep it but make it smaller or move to bottom right corner
+
     return (
-        <View style={styles.container}>
-            <View style={styles.dock}>
+        <View style={[styles.container, isMobile && { right: 10, bottom: 20, top: undefined }]}>
+            <View style={[styles.dock, isMobile && { paddingVertical: 12, gap: 16 }]}>
                 {NAV_ITEMS.map((item) => {
                     const isActive = activeSection === item.id;
 
@@ -36,7 +42,7 @@ export const NavBar = ({ activeSection, onNavigate }: NavBarProps) => {
                         >
                             <FontAwesome5
                                 name={item.icon as any}
-                                size={20}
+                                size={isMobile ? 16 : 20}
                                 color={isActive ? Colors.dark.primary : Colors.dark.secondary}
                             />
                             {isActive && <View style={styles.dot} />}

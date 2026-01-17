@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Colors } from '../constants/Colors';
+import { useResponsive } from '../hooks/useResponsive';
 
 interface CertItem {
     year: string;
@@ -15,13 +16,15 @@ const CERT_DATA: CertItem[] = [
 ];
 
 export const Certifications = () => {
+    const { isMobile } = useResponsive();
+
     return (
         <View style={styles.container}>
             {CERT_DATA.map((item, index) => (
-                <View key={index} style={styles.row}>
-                    <Text style={styles.year}>{item.year}</Text>
+                <View key={index} style={[styles.row, isMobile && { flexDirection: 'column', alignItems: 'flex-start' }]}>
+                    <Text style={[styles.year, isMobile && { marginBottom: 4 }]}>{item.year}</Text>
                     <View style={styles.info}>
-                        <Text style={styles.title}>{item.title}</Text>
+                        <Text style={[styles.title, { fontSize: isMobile ? 20 : 24 }]}>{item.title}</Text>
                         <Text style={styles.issuer}>{item.issuer}</Text>
                     </View>
                 </View>
@@ -53,7 +56,6 @@ const styles = StyleSheet.create({
     },
     title: {
         fontFamily: 'Anton_400Regular',
-        fontSize: 24,
         color: Colors.dark.textHighlight,
         marginBottom: 4,
         textTransform: 'uppercase',

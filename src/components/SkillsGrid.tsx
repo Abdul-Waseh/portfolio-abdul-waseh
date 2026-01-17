@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { FontAwesome5, MaterialCommunityIcons, FontAwesome6 } from '@expo/vector-icons';
 import { Colors } from '../constants/Colors';
+import { useResponsive } from '../hooks/useResponsive';
 
 // Define icon mapping type
 type IconLib = 'FontAwesome5' | 'MaterialCommunityIcons' | 'FontAwesome6' | 'Image';
@@ -49,14 +50,15 @@ const SKILL_DATA: Record<string, SkillItem[]> = {
     ]
 };
 
-const SkillIcon = ({ item }: { item: SkillItem }) => {
+const SkillIcon = ({ item, isMobile }: { item: SkillItem, isMobile: boolean }) => {
+    const size = isMobile ? 28 : 36;
 
     const renderIcon = () => {
         if (item.lib === 'Image' && item.imageUrl) {
             return (
                 <Image
                     source={{ uri: item.imageUrl }}
-                    style={{ width: 36, height: 36, resizeMode: 'contain' }}
+                    style={{ width: size, height: size, resizeMode: 'contain' }}
                 />
             );
         }
@@ -64,26 +66,28 @@ const SkillIcon = ({ item }: { item: SkillItem }) => {
         const IconComponent = item.lib === 'FontAwesome5' ? FontAwesome5 :
             item.lib === 'FontAwesome6' ? FontAwesome6 :
                 MaterialCommunityIcons;
-        return <IconComponent name={item.icon as any} size={36} color={item.color} />;
+        return <IconComponent name={item.icon as any} size={size} color={item.color} />;
     };
 
     return (
-        <View style={[styles.skillItem, { borderColor: '#222' }]}>
+        <View style={[styles.skillItem, { borderColor: '#222', width: isMobile ? 80 : 100, height: isMobile ? 80 : 100 }]}>
             {renderIcon()}
-            <Text style={[styles.skillName, { color: item.color, opacity: 0.8 }]}>{item.name}</Text>
+            <Text style={[styles.skillName, { color: item.color, opacity: 0.8, fontSize: isMobile ? 10 : 12 }]}>{item.name}</Text>
         </View>
     );
 };
 
 export const SkillsGrid = () => {
+    const { isMobile } = useResponsive();
+
     return (
         <View style={styles.container}>
             {Object.entries(SKILL_DATA).map(([category, skills]) => (
                 <View key={category} style={styles.group}>
-                    <Text style={styles.categoryTitle}>{category}</Text>
-                    <View style={styles.grid}>
+                    <Text style={[styles.categoryTitle, { fontSize: isMobile ? 20 : 24 }]}>{category}</Text>
+                    <View style={[styles.grid, { gap: isMobile ? 12 : 16 }]}>
                         {skills.map((skill) => (
-                            <SkillIcon key={skill.name} item={skill} />
+                            <SkillIcon key={skill.name} item={skill} isMobile={isMobile} />
                         ))}
                     </View>
                 </View>
@@ -101,7 +105,6 @@ const styles = StyleSheet.create({
     },
     categoryTitle: {
         fontFamily: 'Anton_400Regular',
-        fontSize: 24,
         color: Colors.dark.textHighlight,
         marginBottom: 20,
         textTransform: 'uppercase',
@@ -109,11 +112,8 @@ const styles = StyleSheet.create({
     grid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: 16,
     },
     skillItem: {
-        width: 100,
-        height: 100,
         backgroundColor: '#0a0a0a',
         borderRadius: 8,
         alignItems: 'center',
@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
     },
     skillName: {
         fontFamily: 'Inter_400Regular',
-        fontSize: 12,
         marginTop: 12,
         fontWeight: '600',
         textAlign: 'center',

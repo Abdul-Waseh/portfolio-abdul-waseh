@@ -13,6 +13,7 @@ import { Footer } from '../src/components/Footer';
 import { About } from '../src/components/About';
 import { Certifications } from '../src/components/Certifications';
 import { NavBar, SectionId } from '../src/components/NavBar';
+import { useResponsive } from '../src/hooks/useResponsive';
 
 export default function App() {
     const scrollViewRef = useRef<ScrollView>(null);
@@ -20,6 +21,7 @@ export default function App() {
     const sectionPositions = useRef<Record<SectionId, number>>({
         hero: 0, about: 0, projects: 0, skills: 0, certs: 0, contact: 0
     });
+    const { isMobile, height: windowHeight } = useResponsive();
 
     const handleLayout = (id: SectionId) => (event: LayoutChangeEvent) => {
         // Add a small offset/bumber zone
@@ -46,6 +48,11 @@ export default function App() {
         else setActiveSection('hero');
     };
 
+    const sectionStyle = [
+        GlobalStyles.section,
+        { minHeight: isMobile ? 'auto' : windowHeight } as any // Auto height on mobile for better scroll
+    ];
+
     return (
         <View style={GlobalStyles.container}>
             <StatusBar style="light" />
@@ -54,27 +61,30 @@ export default function App() {
 
             <ScrollView
                 ref={scrollViewRef}
-                contentContainerStyle={GlobalStyles.contentContainer}
+                contentContainerStyle={[
+                    GlobalStyles.contentContainer,
+                    isMobile && { paddingRight: 24, paddingHorizontal: 20 }
+                ]}
                 onScroll={handleScroll}
                 scrollEventThrottle={16} // smooth updates
                 showsVerticalScrollIndicator={false}
             >
                 {/* HERO */}
-                <View onLayout={handleLayout('hero')} style={GlobalStyles.section}>
+                <View onLayout={handleLayout('hero')} style={sectionStyle}>
                     <Hero />
                 </View>
 
                 {/* ABOUT */}
-                <View onLayout={handleLayout('about')} style={GlobalStyles.section}>
+                <View onLayout={handleLayout('about')} style={sectionStyle}>
                     <AnimatedSection delay={100}>
                         <About />
                     </AnimatedSection>
                 </View>
 
                 {/* PROJECTS */}
-                <View onLayout={handleLayout('projects')} style={GlobalStyles.section}>
+                <View onLayout={handleLayout('projects')} style={sectionStyle}>
                     <AnimatedSection delay={200}>
-                        <Text style={GlobalStyles.sectionTitle}>Selected Works</Text>
+                        <Text style={[GlobalStyles.sectionTitle, isMobile && { fontSize: 36, marginTop: 40 }]}>Selected Works</Text>
 
                         <ProjectCard
                             index="01"
@@ -100,23 +110,23 @@ export default function App() {
                 </View>
 
                 {/* SKILLS */}
-                <View onLayout={handleLayout('skills')} style={GlobalStyles.section}>
+                <View onLayout={handleLayout('skills')} style={sectionStyle}>
                     <AnimatedSection delay={300}>
-                        <Text style={GlobalStyles.sectionTitle}>My Stack</Text>
+                        <Text style={[GlobalStyles.sectionTitle, isMobile && { fontSize: 36, marginTop: 40 }]}>My Stack</Text>
                         <SkillsGrid />
                     </AnimatedSection>
                 </View>
 
                 {/* CERTIFICATIONS */}
-                <View onLayout={handleLayout('certs')} style={GlobalStyles.section}>
+                <View onLayout={handleLayout('certs')} style={sectionStyle}>
                     <AnimatedSection delay={350}>
-                        <Text style={GlobalStyles.sectionTitle}>Credentials</Text>
+                        <Text style={[GlobalStyles.sectionTitle, isMobile && { fontSize: 36, marginTop: 40 }]}>Credentials</Text>
                         <Certifications />
                     </AnimatedSection>
                 </View>
 
                 {/* FOOTER */}
-                <View onLayout={handleLayout('contact')} style={GlobalStyles.section}>
+                <View onLayout={handleLayout('contact')} style={sectionStyle}>
                     <AnimatedSection delay={400}>
                         <Footer />
                     </AnimatedSection>
