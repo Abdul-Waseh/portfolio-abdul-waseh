@@ -9,7 +9,7 @@ export const GlobalStyles = StyleSheet.create({
         backgroundColor: Colors.dark.background,
         ...Platform.select({
             web: {
-                height: '100dvh', // Dynamic viewport height for mobile browsers
+                height: '100dvh' as any, // Dynamic viewport height for mobile browsers
                 minHeight: '-webkit-fill-available' // Fallback
             }
         })
