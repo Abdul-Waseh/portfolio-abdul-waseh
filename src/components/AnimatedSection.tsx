@@ -23,12 +23,36 @@ export const AnimatedSection = ({ children, delay = 0, style }: AnimatedSectionP
     const viewRef = useRef<View>(null);
 
     useEffect(() => {
-        // SIMPLIFIED DEBUG: Always animate in on mount
-        // This removes the IntersectionObserver crash risk on resize
-        setHasAppeared(true);
-        opacity.value = withDelay(delay, withTiming(1, { duration: 800, easing: Easing.out(Easing.exp) }));
-        translateY.value = withDelay(delay, withTiming(0, { duration: 800, easing: Easing.out(Easing.exp) }));
-    }, []);
+        // WEB: Use IntersectionObserver
+        if (Platform.OS === 'web') {
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting && !hasAppeared) {
+                            setHasAppeared(true);
+                            opacity.value = withDelay(delay, withTiming(1, { duration: 600, easing: Easing.out(Easing.exp) }));
+                            translateY.value = withDelay(delay, withTiming(0, { duration: 600, easing: Easing.out(Easing.exp) }));
+                            // Unobserve after triggering
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.1 } // Reduced threshold for better triggering
+            );
+
+            if (viewRef.current) {
+                // @ts-ignore
+                observer.observe(viewRef.current);
+            }
+
+            return () => observer.disconnect();
+        } else {
+            // MOBILE: Simple timer fallback
+            setHasAppeared(true);
+            opacity.value = withDelay(delay, withTiming(1, { duration: 800, easing: Easing.out(Easing.exp) }));
+            translateY.value = withDelay(delay, withTiming(0, { duration: 800, easing: Easing.out(Easing.exp) }));
+        }
+    }, [delay]);
 
     const animatedStyle = useAnimatedStyle(() => {
         return {

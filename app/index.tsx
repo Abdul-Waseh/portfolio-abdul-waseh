@@ -63,7 +63,7 @@ export default function App() {
     return (
         <View style={GlobalStyles.container}>
             <StatusBar style="light" />
-            {/* <LiveBackground /> */}
+            <LiveBackground />
             <CustomCursor />
 
             <ScrollView
