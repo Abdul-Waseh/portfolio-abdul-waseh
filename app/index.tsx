@@ -63,7 +63,7 @@ export default function App() {
                 ref={scrollViewRef}
                 contentContainerStyle={[
                     GlobalStyles.contentContainer,
-                    isMobile && { paddingRight: 24, paddingHorizontal: 20 }
+                    isMobile && { paddingRight: 24, paddingHorizontal: 20, paddingBottom: 40 }
                 ]}
                 onScroll={handleScroll}
                 scrollEventThrottle={16} // smooth updates

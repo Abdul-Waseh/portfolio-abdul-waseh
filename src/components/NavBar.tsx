@@ -28,8 +28,26 @@ export const NavBar = ({ activeSection, onNavigate }: NavBarProps) => {
     // Let's keep it but make it smaller or move to bottom right corner
 
     return (
-        <View style={[styles.container, isMobile && { right: 10, bottom: 20, top: undefined }]}>
-            <View style={[styles.dock, isMobile && { paddingVertical: 12, gap: 16 }]}>
+        <View style={[
+            styles.container,
+            isMobile && {
+                right: 0,
+                left: 0,
+                bottom: 20,
+                top: undefined,
+                alignItems: 'center' // Center horizontally
+            }
+        ]}>
+            <View style={[
+                styles.dock,
+                isMobile && {
+                    flexDirection: 'row',
+                    paddingVertical: 12,
+                    paddingHorizontal: 20,
+                    gap: 20,
+                    borderRadius: 30
+                }
+            ]}>
                 {NAV_ITEMS.map((item) => {
                     const isActive = activeSection === item.id;
 
@@ -37,15 +55,29 @@ export const NavBar = ({ activeSection, onNavigate }: NavBarProps) => {
                         <TouchableOpacity
                             key={item.id}
                             onPress={() => onNavigate(item.id)}
-                            style={[styles.iconButton, isActive && styles.activeButton]}
+                            style={[
+                                styles.iconButton,
+                                isActive && styles.activeButton,
+                                isMobile && { padding: 8 } // Smaller touch target padding
+                            ]}
                             activeOpacity={0.7}
                         >
                             <FontAwesome5
                                 name={item.icon as any}
-                                size={isMobile ? 16 : 20}
+                                size={isMobile ? 18 : 20}
                                 color={isActive ? Colors.dark.primary : Colors.dark.secondary}
                             />
-                            {isActive && <View style={styles.dot} />}
+                            {/* Dot indicator styling for horizontal layout */}
+                            {isActive && <View style={[
+                                styles.dot,
+                                isMobile && {
+                                    top: undefined,
+                                    bottom: -4,
+                                    left: '50%',
+                                    marginLeft: -2,
+                                    marginTop: 0
+                                }
+                            ]} />}
                         </TouchableOpacity>
                     );
                 })}
