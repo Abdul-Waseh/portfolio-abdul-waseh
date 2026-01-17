@@ -110,7 +110,7 @@ export const LiveBackground = () => {
     return (
         <View style={styles.container} pointerEvents="none">
             {Array.from({ length: NUM_PARTICLES }).map((_, i) => (
-                <Particle key={`${i}-${width}-${height}`} index={i} width={width} height={height} />
+                <Particle key={i} index={i} width={width} height={height} />
             ))}
         </View>
     );
