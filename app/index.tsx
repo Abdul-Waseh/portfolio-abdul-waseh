@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, Text, View, StyleSheet, LayoutChangeEvent, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
+import { ScrollView, Text, View, StyleSheet, LayoutChangeEvent, NativeSyntheticEvent, NativeScrollEvent, Platform } from 'react-native';
 import { GlobalStyles } from '../src/styles/GlobalStyles';
 import { Hero } from '../src/components/Header';
 import { ProjectCard } from '../src/components/ProjectCard';
