@@ -20,6 +20,11 @@ export const GlobalStyles = StyleSheet.create({
         paddingBottom: 40,
         maxWidth: 1200,
         width: '100%',
+        ...Platform.select({
+            web: {
+                scrollSnapType: 'y mandatory' as any
+            }
+        })
     },
     headingFont: {
         fontFamily: 'Anton_400Regular',
@@ -57,5 +62,10 @@ export const GlobalStyles = StyleSheet.create({
         // minHeight is now handled dynamically in App.tsx
         justifyContent: 'center', // Center content vertically
         paddingVertical: 20,
+        ...Platform.select({
+            web: {
+                scrollSnapAlign: 'start' as any // Snap to top of section
+            }
+        })
     }
 });

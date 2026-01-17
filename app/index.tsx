@@ -71,6 +71,10 @@ export default function App() {
                     GlobalStyles.contentContainer,
                     isMobile && { paddingRight: 24, paddingHorizontal: 20, paddingBottom: 40 }
                 ]}
+                // Native snapping support
+                pagingEnabled={Platform.OS !== 'web'} // Use native paging on mobile apps, CSS snap on web
+                decelerationRate="fast"
+                snapToAlignment="start"
                 onScroll={handleScroll}
                 scrollEventThrottle={16} // smooth updates
                 showsVerticalScrollIndicator={false}
